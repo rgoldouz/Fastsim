@@ -3,7 +3,31 @@
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
 # with command line options: Configuration/GenProduction/python/SUS-RunIISummer16FSPremix-00002-fragment.py --fileout file:SUS-RunIISummer16FSPremix-00002.root --pileup_input FE5BDF01-999D-E611-AD74-0CC47A7C353E.root --mc --eventcontent AODSIM --fast --customise SimGeneral/DataMixingModule/customiseForPremixingInput.customiseForPreMixingInput,Configuration/DataProcessing/Utils.addMonitoring --datatier AODSIM --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --beamspot Realistic50ns13TeVCollision --customise_commands process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(200) --step GEN,SIM,RECOBEFMIX,DIGIPREMIX_S2,DATAMIX,L1,DIGI2RAW,L1Reco,RECO,HLT:@fake1 --datamix PreMix --era Run2_2016 --python_filename SUS-RunIISummer16FSPremix-00002_1_cfg.py --no_exec -n 489
+import sys
 import FWCore.ParameterSet.Config as cms
+import FWCore.ParameterSet.VarParsing as opts
+import copy
+import os
+
+options = opts.VarParsing ("analysis")
+options.register("gridpack",
+                 "/group/HEEP/ST_tW_EFT_noDecays_Madgraph_tarball_05.tar.xz",
+                 opts.VarParsing.multiplicity.singleton,
+                 opts.VarParsing.varType.string,
+                 "Gridpack to analyze")
+options.register("output",
+                 "file:Wtb_FastSim.root",
+                 opts.VarParsing.multiplicity.singleton,
+                 opts.VarParsing.varType.string,
+                 "name of output file")
+options.register("Nevents",
+                 10000,
+                 opts.VarParsing.multiplicity.singleton,
+                 opts.VarParsing.varType.int,
+                 "number of events to be produced")
+options.parseArguments()
+
+
 
 from Configuration.StandardSequences.Eras import eras
 
@@ -34,7 +58,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(options.Nevents)
 )
 
 # Input source
@@ -47,7 +71,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.19 $'),
-    annotation = cms.untracked.string('TOP-RunIISummer15wmLHEGS-00002-fragment.py nevts:100'),
+    annotation = cms.untracked.string('TOP-RunIISummer15wmLHEGS-00002-fragment.py nevts:' + str(options.Nevents)),
     name = cms.untracked.string('Applications')
 )
 
@@ -64,7 +88,7 @@ process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
-    fileName = cms.untracked.string('file:Wtb_FastSim.root'),
+    fileName = cms.untracked.string(options.output),
     outputCommands = process.AODSIMEventContent.outputCommands
 )
 
@@ -119,11 +143,11 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
 )
 
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    nEvents = cms.untracked.uint32(100),
+    nEvents = cms.untracked.uint32(options.Nevents),
     outputFile = cms.string('cmsgrid_final.lhe'),
     scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh'),
     numberOfParameters = cms.uint32(1),
-    args = cms.vstring('/group/HEEP/ST_tW_EFT_noDecays_Madgraph_tarball_05.tar.xz')
+    args = cms.vstring(options.gridpack)
 )
 
 # Path and EndPath definitions
