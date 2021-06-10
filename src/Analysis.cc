@@ -89,20 +89,13 @@ void Analysis::Loop(TString fname)
   gStyle->SetOptStat(0);
   cout<<fname<<endl;
 
+  TH1F *rndH;
+
   TFile *f = new TFile("hists/Hist"+fname+".root","RECREATE");
   f->cd();
 
-  double EcalRadLen =89;
-  double HcalRadLen =143;
-  double HcalIntLen =150.5;
-  double EcalIntLen =300;   
-  double rand;
   Gflash gflash;
 
-  TH1F *HadEPHcal, *HadEPEcal, *HHcal, *HEcal, *HHcal2;
-  TH1F *Eprofile, *EPHCAL, *EPECAL, *hClone;
-
-  TF1 *funcH;
   TH1F *fDp       = new TH1F( "fDp", "fDp" ,           50, 0  , 1    );
   TH1F *fPi0      = new TH1F( "fPi0", "fPi0" ,         50, 0  , 1    );
   TH1F *fPi0L     = new TH1F( "fPi0L", "fPi0L" ,       50, 0  , 1    );
@@ -110,6 +103,7 @@ void Analysis::Loop(TString fname)
   TH1F *Class     = new TH1F( "Class", "Class" ,        4, 0  , 4    );
   TH1F *fSP       = new TH1F( "fSP", "fSP" ,            4, 0  , 4    );
   TH1F *SP        = new TH1F( "SP", "SP" ,            400, 0  , 4000 );
+
   TH1F *HadEPFullsim_spHCAL      = new TH1F( "HadEPFullsim_spHCAL","HadEPFullsim_spHCAL" ,             30, 0  , 15    );
   TH1F *HadEPFullsim_spHCALFit   = new TH1F( "HadEPFullsim_spHCALFit","HadEPFullsim_spHCALFit" ,       30, 0  , 15    );
   TH1F *HadEPFullsim_spECAL_HCAL   = new TH1F( "HadEPFullsim_spECAL_HCAL","HadEPFullsim_spECAL_HCAL" ,       30, 0  , 15    );
@@ -140,12 +134,35 @@ void Analysis::Loop(TString fname)
   TH2F *AlphaBetaCorr_HadEPFullsim_spHCAL = new TH2F( "AlphaBetaCorr_HadEPFullsim_spHCAL", "AlphaBetaCorr_HadEPFullsim_spHCAL" ,   200,-10,10,200,-10,10    );
   TH2F *AlphaBetaCorr_HadEPFullsim_spECAL_ECAL = new TH2F( "AlphaBetaCorr_HadEPFullsim_spECAL_ECAL", "AlphaBetaCorr_HadEPFullsim_spECAL_ECAL" ,   200,-10,10,200,-10,10    );
   TH2F *AlphaBetaCorr_HadEPFullsim_spECAL_HCAL = new TH2F( "AlphaBetaCorr_HadEPFullsim_spECAL_HCAL", "AlphaBetaCorr_HadEPFullsim_spECAL_HCAL" ,   200,-10,10,200,-10,10    );
+
+
+  TH1F *Alpha_FirstPi0EPFullsim_spHCAL = new TH1F( "Alpha_FirstPi0EPFullsim_spHCAL", "Alpha_FirstPi0EPFullsim_spHCAL" ,   50, -5  , 5    );
+  TH1F *Alpha_FirstPi0EPFullsim_spECAL_ECAL = new TH1F( "Alpha_FirstPi0EPFullsim_spECAL_ECAL", "Alpha_FirstPi0EPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
+  TH1F *Alpha_FirstPi0EPFullsim_spECAL_HCAL = new TH1F( "Alpha_FirstPi0EPFullsim_spECAL_HCAL", "Alpha_FirstPi0EPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
+  TH1F *Beta_FirstPi0EPFullsim_spHCAL = new TH1F( "Beta_FirstPi0EPFullsim_spHCAL", "Beta_FirstPi0EPFullsim_spHCAL" ,   50, -5  , 5    );
+  TH1F *Beta_FirstPi0EPFullsim_spECAL_ECAL = new TH1F( "Beta_FirstPi0EPFullsim_spECAL_ECAL", "Beta_FirstPi0EPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
+  TH1F *Beta_FirstPi0EPFullsim_spECAL_HCAL = new TH1F( "Beta_FirstPi0EPFullsim_spECAL_HCAL", "Beta_FirstPi0EPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
+  TH2F *AlphaBetaCorr_FirstPi0EPFullsim_spHCAL = new TH2F( "AlphaBetaCorr_FirstPi0EPFullsim_spHCAL", "AlphaBetaCorr_FirstPi0EPFullsim_spHCAL" ,   200,-10,10,200,-10,10    );
+  TH2F *AlphaBetaCorr_FirstPi0EPFullsim_spECAL_ECAL = new TH2F( "AlphaBetaCorr_FirstPi0EPFullsim_spECAL_ECAL", "AlphaBetaCorr_FirstPi0EPFullsim_spECAL_ECAL" ,   200,-10,10,200,-10,10    );
+  TH2F *AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL = new TH2F( "AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL", "AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL" ,   200,-10,10,200,-10,10    );
+
+  TH1F *Alpha_LatePi0EPFullsim_spHCAL = new TH1F( "Alpha_LatePi0EPFullsim_spHCAL", "Alpha_LatePi0EPFullsim_spHCAL" ,   50, -5  , 5    );
+  TH1F *Alpha_LatePi0EPFullsim_spECAL_ECAL = new TH1F( "Alpha_LatePi0EPFullsim_spECAL_ECAL", "Alpha_LatePi0EPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
+  TH1F *Alpha_LatePi0EPFullsim_spECAL_HCAL = new TH1F( "Alpha_LatePi0EPFullsim_spECAL_HCAL", "Alpha_LatePi0EPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
+  TH1F *Beta_LatePi0EPFullsim_spHCAL = new TH1F( "Beta_LatePi0EPFullsim_spHCAL", "Beta_LatePi0EPFullsim_spHCAL" ,   50, -5  , 5    );
+  TH1F *Beta_LatePi0EPFullsim_spECAL_ECAL = new TH1F( "Beta_LatePi0EPFullsim_spECAL_ECAL", "Beta_LatePi0EPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
+  TH1F *Beta_LatePi0EPFullsim_spECAL_HCAL = new TH1F( "Beta_LatePi0EPFullsim_spECAL_HCAL", "Beta_LatePi0EPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
+  TH2F *AlphaBetaCorr_LatePi0EPFullsim_spHCAL = new TH2F( "AlphaBetaCorr_LatePi0EPFullsim_spHCAL", "AlphaBetaCorr_LatePi0EPFullsim_spHCAL" ,   200,-10,10,200,-10,10    );
+  TH2F *AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL = new TH2F( "AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL", "AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL" ,   200,-10,10,200,-10,10    );
+  TH2F *AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL = new TH2F( "AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL", "AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL" ,   200,-10,10,200,-10,10    );
+
   TH1F *Alpha_HadEPFastsim_spHCAL = new TH1F( "Alpha_HadEPFastsim_spHCAL", "Alpha_HadEPFastsim_spHCAL" ,   50, -5  , 5    );
   TH1F *Alpha_HadEPFastsim_spECAL_ECAL = new TH1F( "Alpha_HadEPFastsim_spECAL_ECAL", "Alpha_HadEPFastsim_spECAL_ECAL" ,   50, -5  , 5    );
   TH1F *Alpha_HadEPFastsim_spECAL_HCAL = new TH1F( "Alpha_HadEPFastsim_spECAL_HCAL", "Alpha_HadEPFastsim_spECAL_HCAL" ,   50, -5  , 5    );
   TH1F *Beta_HadEPFastsim_spHCAL = new TH1F( "Beta_HadEPFastsim_spHCAL", "Beta_HadEPFastsim_spHCAL" ,   50, -5  , 5    );
   TH1F *Beta_HadEPFastsim_spECAL_ECAL = new TH1F( "Beta_HadEPFastsim_spECAL_ECAL", "Beta_HadEPFastsim_spECAL_ECAL" ,   50, -5  , 5    );
   TH1F *Beta_HadEPFastsim_spECAL_HCAL = new TH1F( "Beta_HadEPFastsim_spECAL_HCAL", "Beta_HadEPFastsim_spECAL_HCAL" ,   50, -5  , 5    );
+
 
   TH2D *h2_SpVsECALeOverHCALe   = new TH2D("h2_SpVsECALeOverHCALe","h2_SpVsECALeOverHCALe", 100 , 0,4000, 50 ,0,1);
   TH2D *h2_classVsSP   = new TH2D("h2_classVsSP","h2_classVsSP", 4 , 0,4, 100 , 0,4000);
@@ -209,52 +226,88 @@ void Analysis::Loop(TString fname)
 //Hadronic energy profile
     if(gflash.theHistEnergyHadronicEcal->Integral()>0 && gflash.EcaloHcalHadronic> 0.05){
         HadEPFullsim_spECAL_ECAL->Add(gflash.theHistEnergyHadronicEcal);
-        HadEPFullsim_spECAL_ECALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyHadronicEcal,gflash.betaEnergyHadronicEcal));
-        Alpha_HadEPFullsim_spECAL_ECAL->Fill(gflash.alphaEnergyHadronicEcal);
-        Beta_HadEPFullsim_spECAL_ECAL->Fill(gflash.betaEnergyHadronicEcal);
-        AlphaBetaCorr_HadEPFullsim_spECAL_ECAL->Fill(gflash.alphaEnergyHadronicEcal,gflash.betaEnergyHadronicEcal);        
+        rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+        HadEPFullsim_spECAL_ECALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyHadronicEcal,gflash.betaEnergyHadronicEcal,rndH));
+        delete rndH;
+        Alpha_HadEPFullsim_spECAL_ECAL->Fill(log(gflash.alphaEnergyHadronicEcal));
+        Beta_HadEPFullsim_spECAL_ECAL->Fill(log(gflash.betaEnergyHadronicEcal));
+        AlphaBetaCorr_HadEPFullsim_spECAL_ECAL->Fill(log(gflash.alphaEnergyHadronicEcal),log(gflash.betaEnergyHadronicEcal));        
       if(gflash.theHistEnergyHadronicHcal > 0 && (1-gflash.EcaloHcalHadronic)> 0.05){
         HadEPFullsim_spECAL_HCAL->Add(gflash.theHistEnergyHadronicHcal);
-        HadEPFullsim_spECAL_HCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyHadronicHcal,gflash.betaEnergyHadronicHcal));
-        Alpha_HadEPFullsim_spECAL_HCAL->Fill(gflash.alphaEnergyHadronicHcal);
-        Beta_HadEPFullsim_spECAL_HCAL->Fill(gflash.betaEnergyHadronicHcal);
-        AlphaBetaCorr_HadEPFullsim_spECAL_HCAL->Fill(gflash.alphaEnergyHadronicHcal,gflash.alphaEnergyHadronicHcal);
+        rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+        HadEPFullsim_spECAL_HCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyHadronicHcal,gflash.betaEnergyHadronicHcal,rndH));
+        delete rndH;
+        Alpha_HadEPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyHadronicHcal));
+        Beta_HadEPFullsim_spECAL_HCAL->Fill(log(gflash.betaEnergyHadronicHcal));
+        AlphaBetaCorr_HadEPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyHadronicHcal),log(gflash.alphaEnergyHadronicHcal));
       }
     }
     if(gflash.theHistEnergyHadronicEcal->Integral()==0 && gflash.theHistEnergyHadronicHcal > 0){
-        HadEPFullsim_spHCAL->Add(gflash.theHistEnergyHadronicHcal);
-        HadEPFullsim_spHCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyHadronicHcal,gflash.betaEnergyHadronicHcal));
-        Alpha_HadEPFullsim_spHCAL->Fill(gflash.alphaEnergyHadronicHcal);
-        Beta_HadEPFullsim_spHCAL->Fill(gflash.betaEnergyHadronicHcal);
-        AlphaBetaCorr_HadEPFullsim_spHCAL->Fill(gflash.alphaEnergyHadronicHcal,gflash.betaEnergyHadronicHcal);
+      HadEPFullsim_spHCAL->Add(gflash.theHistEnergyHadronicHcal);
+      rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+      HadEPFullsim_spHCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyHadronicHcal,gflash.betaEnergyHadronicHcal,rndH));
+      delete rndH;
+      Alpha_HadEPFullsim_spHCAL->Fill(log(gflash.alphaEnergyHadronicHcal));
+      Beta_HadEPFullsim_spHCAL->Fill(log(gflash.betaEnergyHadronicHcal));
+      AlphaBetaCorr_HadEPFullsim_spHCAL->Fill(log(gflash.alphaEnergyHadronicHcal),log(gflash.betaEnergyHadronicHcal));
     }
 //First pi0 energy profile
     if(gflash.theHistEnergyPi0FirstEcal->Integral()>0 && gflash.EcaloHcalPi0First>0.05){
       FirstPi0EPFullsim_spECAL_ECAL->Add(gflash.theHistEnergyPi0FirstEcal);
-      FirstPi0EPFullsim_spECAL_ECALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0FirstEcal,gflash.betaEnergyPi0FirstEcal));
+      rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+      FirstPi0EPFullsim_spECAL_ECALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0FirstEcal,gflash.betaEnergyPi0FirstEcal,rndH));
+      delete rndH;
+      Alpha_FirstPi0EPFullsim_spECAL_ECAL->Fill(log(gflash.alphaEnergyPi0FirstEcal));
+      Beta_FirstPi0EPFullsim_spECAL_ECAL->Fill(log(gflash.betaEnergyPi0FirstEcal));
+      AlphaBetaCorr_FirstPi0EPFullsim_spECAL_ECAL->Fill(log(gflash.alphaEnergyPi0FirstEcal),log(gflash.betaEnergyPi0FirstEcal));
       if(gflash.theHistEnergyPi0FirstHcal->Integral()>0 && (1-gflash.EcaloHcalPi0First)>0.05){
         FirstPi0EPFullsim_spECAL_HCAL->Add(gflash.theHistEnergyPi0FirstHcal);
-        FirstPi0EPFullsim_spECAL_HCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0FirstHcal,gflash.betaEnergyPi0FirstHcal));
+        rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+        FirstPi0EPFullsim_spECAL_HCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0FirstHcal,gflash.betaEnergyPi0FirstHcal,rndH));
+        delete rndH;
+        Alpha_FirstPi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0FirstHcal));
+        Beta_FirstPi0EPFullsim_spECAL_HCAL->Fill(log(gflash.betaEnergyPi0FirstHcal));
+        AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0FirstHcal),log(gflash.alphaEnergyPi0FirstHcal));
       }
     }
     if(gflash.theHistEnergyPi0FirstEcal->Integral()==0 && gflash.theHistEnergyPi0FirstHcal->Integral()>0){
       FirstPi0EPFullsim_spHCAL->Add(gflash.theHistEnergyPi0FirstHcal);      
-      FirstPi0EPFullsim_spHCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0FirstHcal,gflash.betaEnergyPi0FirstHcal));
+      rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+      FirstPi0EPFullsim_spHCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0FirstHcal,gflash.betaEnergyPi0FirstHcal,rndH));
+      delete rndH;
+      Alpha_FirstPi0EPFullsim_spHCAL->Fill(log(gflash.alphaEnergyPi0FirstHcal));
+      Beta_FirstPi0EPFullsim_spHCAL->Fill(log(gflash.betaEnergyPi0FirstHcal));
+      AlphaBetaCorr_FirstPi0EPFullsim_spHCAL->Fill(log(gflash.alphaEnergyPi0FirstHcal),log(gflash.betaEnergyPi0FirstHcal));
     }
 //Late pi0 energy profile
     if(gflash.theHistEnergyPi0LateEcal->Integral()>0 && gflash.EcaloHcalPi0Late>0.05){
       LatePi0EPFullsim_spECAL_ECAL->Add(gflash.theHistEnergyPi0LateEcal);
-      LatePi0EPFullsim_spECAL_ECALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0LateEcal,gflash.betaEnergyPi0LateEcal));
+      rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+      LatePi0EPFullsim_spECAL_ECALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0LateEcal,gflash.betaEnergyPi0LateEcal,rndH));
+      delete rndH;
+      Alpha_LatePi0EPFullsim_spECAL_ECAL->Fill(log(gflash.alphaEnergyPi0LateEcal));
+      Beta_LatePi0EPFullsim_spECAL_ECAL->Fill(log(gflash.betaEnergyPi0LateEcal));
+      AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL->Fill(log(gflash.alphaEnergyPi0LateEcal),log(gflash.betaEnergyPi0LateEcal));
       if(gflash.theHistEnergyPi0LateHcal->Integral()>0 && (1-gflash.EcaloHcalPi0Late)>0.05){
         LatePi0EPFullsim_spECAL_HCAL->Add(gflash.theHistEnergyPi0LateHcal);
-        LatePi0EPFullsim_spECAL_HCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0LateHcal,gflash.betaEnergyPi0LateHcal));
-        if((gflash.getRandomProfile(gflash.alphaEnergyPi0LateHcal,gflash.betaEnergyPi0LateHcal))->Integral()==0) cout<<"kkkkkkkkkkkkkkkkkkkkkkk"<<endl;
+        rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+        LatePi0EPFullsim_spECAL_HCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0LateHcal,gflash.betaEnergyPi0LateHcal,rndH));
+        delete rndH;
+        Alpha_LatePi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0LateHcal));
+        Beta_LatePi0EPFullsim_spECAL_HCAL->Fill(log(gflash.betaEnergyPi0LateHcal));
+        AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0LateHcal),log(gflash.alphaEnergyPi0LateHcal));
       }
     }
     if(gflash.theHistEnergyPi0LateEcal->Integral()==0 && gflash.theHistEnergyPi0LateHcal->Integral()>0){
       LatePi0EPFullsim_spHCAL->Add(gflash.theHistEnergyPi0LateHcal);
-      LatePi0EPFullsim_spHCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0LateHcal,gflash.betaEnergyPi0LateHcal));
+      rndH = new TH1F( "rndH","rndH" , 30, 0, 15);
+      LatePi0EPFullsim_spHCALFit->Add(gflash.getRandomProfile(gflash.alphaEnergyPi0LateHcal,gflash.betaEnergyPi0LateHcal,rndH));
+      delete rndH;
+      Alpha_LatePi0EPFullsim_spHCAL->Fill(log(gflash.alphaEnergyPi0LateHcal));
+      Beta_LatePi0EPFullsim_spHCAL->Fill(log(gflash.betaEnergyPi0LateHcal));
+      AlphaBetaCorr_LatePi0EPFullsim_spHCAL->Fill(log(gflash.alphaEnergyPi0LateHcal),log(gflash.betaEnergyPi0LateHcal));
     }
+
     gflash.clean();
   }
 
@@ -278,12 +331,32 @@ void Analysis::Loop(TString fname)
   LatePi0EPFullsim_spECAL_HCALFit->Scale(1/LatePi0EPFullsim_spECAL_HCALFit->Integral());
   LatePi0EPFullsim_spHCAL->Scale(1/LatePi0EPFullsim_spHCAL->Integral());
   LatePi0EPFullsim_spHCALFit->Scale(1/LatePi0EPFullsim_spHCALFit->Integral());
-  Alpha_HadEPFullsim_spHCAL->Scale(1/Alpha_HadEPFullsim_spHCAL->Integral());
-  Alpha_HadEPFullsim_spECAL_HCAL->Scale(1/Alpha_HadEPFullsim_spECAL_HCAL->Integral());
-  Alpha_HadEPFullsim_spECAL_ECAL->Scale(1/Alpha_HadEPFullsim_spECAL_ECAL->Integral());
-  Beta_HadEPFullsim_spHCAL->Scale(1/Beta_HadEPFullsim_spHCAL->Integral());
-  Beta_HadEPFullsim_spECAL_HCAL->Scale(1/Beta_HadEPFullsim_spECAL_HCAL->Integral());
-  Beta_HadEPFullsim_spECAL_ECAL->Scale(1/Beta_HadEPFullsim_spECAL_ECAL->Integral());
+//  Alpha_HadEPFullsim_spHCAL->Scale(1/Alpha_HadEPFullsim_spHCAL->Integral());
+//  Alpha_HadEPFullsim_spECAL_HCAL->Scale(1/Alpha_HadEPFullsim_spECAL_HCAL->Integral());
+//  Alpha_HadEPFullsim_spECAL_ECAL->Scale(1/Alpha_HadEPFullsim_spECAL_ECAL->Integral());
+//  Beta_HadEPFullsim_spHCAL->Scale(1/Beta_HadEPFullsim_spHCAL->Integral());
+//  Beta_HadEPFullsim_spECAL_HCAL->Scale(1/Beta_HadEPFullsim_spECAL_HCAL->Integral());
+//  Beta_HadEPFullsim_spECAL_ECAL->Scale(1/Beta_HadEPFullsim_spECAL_ECAL->Integral());
+//
+//  Alpha_FirstPi0EPFullsim_spHCAL->Scale(1/Alpha_FirstPi0EPFullsim_spHCAL->Integral());
+//  Alpha_FirstPi0EPFullsim_spECAL_HCAL->Scale(1/Alpha_FirstPi0EPFullsim_spECAL_HCAL->Integral());
+//  Alpha_FirstPi0EPFullsim_spECAL_ECAL->Scale(1/Alpha_FirstPi0EPFullsim_spECAL_ECAL->Integral());
+//  Beta_FirstPi0EPFullsim_spHCAL->Scale(1/Beta_FirstPi0EPFullsim_spHCAL->Integral());
+//  Beta_FirstPi0EPFullsim_spECAL_HCAL->Scale(1/Beta_FirstPi0EPFullsim_spECAL_HCAL->Integral());
+//  Beta_FirstPi0EPFullsim_spECAL_ECAL->Scale(1/Beta_FirstPi0EPFullsim_spECAL_ECAL->Integral());
+//
+//  Alpha_LatePi0EPFullsim_spHCAL->Scale(1/Alpha_LatePi0EPFullsim_spHCAL->Integral());
+//  Alpha_LatePi0EPFullsim_spECAL_HCAL->Scale(1/Alpha_LatePi0EPFullsim_spECAL_HCAL->Integral());
+//  Alpha_LatePi0EPFullsim_spECAL_ECAL->Scale(1/Alpha_LatePi0EPFullsim_spECAL_ECAL->Integral());
+//  Beta_LatePi0EPFullsim_spHCAL->Scale(1/Beta_LatePi0EPFullsim_spHCAL->Integral());
+//  Beta_LatePi0EPFullsim_spECAL_HCAL->Scale(1/Beta_LatePi0EPFullsim_spECAL_HCAL->Integral());
+//  Beta_LatePi0EPFullsim_spECAL_ECAL->Scale(1/Beta_LatePi0EPFullsim_spECAL_ECAL->Integral());
+
+
+
+
+
+
 
   const Int_t nx = 4;
   const char *type[nx] = {"H","H+#pi_{0}^{f}","H+#pi_{0}^{l}","H+#pi_{0}^{f}+#pi_{0}^{l}"};
@@ -340,6 +413,27 @@ void Analysis::Loop(TString fname)
   AlphaBetaCorr_HadEPFullsim_spECAL_ECAL->Write("",TObject::kOverwrite);
   AlphaBetaCorr_HadEPFullsim_spECAL_HCAL->Write("",TObject::kOverwrite);
 
+  Alpha_FirstPi0EPFullsim_spHCAL->Write("",TObject::kOverwrite);
+  Alpha_FirstPi0EPFullsim_spECAL_ECAL ->Write("",TObject::kOverwrite);
+  Alpha_FirstPi0EPFullsim_spECAL_HCAL->Write("",TObject::kOverwrite);
+  Beta_FirstPi0EPFullsim_spHCAL->Write("",TObject::kOverwrite);
+  Beta_FirstPi0EPFullsim_spECAL_ECAL  ->Write("",TObject::kOverwrite);
+  Beta_FirstPi0EPFullsim_spECAL_HCAL->Write("",TObject::kOverwrite);
+  AlphaBetaCorr_FirstPi0EPFullsim_spHCAL->Write("",TObject::kOverwrite);
+  AlphaBetaCorr_FirstPi0EPFullsim_spECAL_ECAL->Write("",TObject::kOverwrite);
+  AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL->Write("",TObject::kOverwrite);
+
+  Alpha_LatePi0EPFullsim_spHCAL->Write("",TObject::kOverwrite);
+  Alpha_LatePi0EPFullsim_spECAL_ECAL ->Write("",TObject::kOverwrite);
+  Alpha_LatePi0EPFullsim_spECAL_HCAL->Write("",TObject::kOverwrite);
+  Beta_LatePi0EPFullsim_spHCAL->Write("",TObject::kOverwrite);
+  Beta_LatePi0EPFullsim_spECAL_ECAL  ->Write("",TObject::kOverwrite);
+  Beta_LatePi0EPFullsim_spECAL_HCAL->Write("",TObject::kOverwrite);
+  AlphaBetaCorr_LatePi0EPFullsim_spHCAL->Write("",TObject::kOverwrite);
+  AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL->Write("",TObject::kOverwrite);
+  AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL->Write("",TObject::kOverwrite);
+
+  f->Close();
 /*
 //try to do fastsimulation
 //showers start in Hcal

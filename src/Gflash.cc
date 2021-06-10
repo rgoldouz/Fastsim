@@ -127,14 +127,14 @@ void Gflash::initialize(       double energy,
 }
 
 
-TH1F* Gflash::getRandomProfile(double alpha, double beta){
+TH1F* Gflash::getRandomProfile(double alpha, double beta, TH1F* rnd){
   std::gamma_distribution<double> distribution(alpha,1/beta);
   for (int j = 0; j < n; ++j){
-     randomHist->Fill(distribution(generator));
+     rnd->Fill(distribution(generator));
   }
-  if (randomHist->Integral()>0 ) randomHist->Scale(1/randomHist->Integral());
+  if (rnd->Integral()>0 ) rnd->Scale(1/rnd->Integral());
   else cout<<"Warning: randomHist integral==0"<<endl;
 
-  if (randomHist->Integral()==0) randomHist->FillRandom("gaus", 1000);
-  return randomHist;
+  if (rnd->Integral()==0) rnd->FillRandom("gaus", 1000);
+  return rnd;
 }

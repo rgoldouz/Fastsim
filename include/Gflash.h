@@ -25,7 +25,7 @@ public:
   );
 
   void clean();
-  TH1F* getRandomProfile(double alpha, double beta);
+  TH1F* getRandomProfile(double alpha, double beta, TH1F* rnd);
 //  Double_t gammaProfile(Double_t *x,Double_t *par);
 
   int theShowerType;
