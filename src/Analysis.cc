@@ -91,7 +91,7 @@ void Analysis::Loop(TString fname)
 
   TH1F *rndH;
 
-  TFile *f = new TFile("../hists/Hist"+fname+".root","RECREATE");
+  TFile *f = new TFile("hists/Hist"+fname+".root","RECREATE");
   f->cd();
 
   Gflash gflash;
