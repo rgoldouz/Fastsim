@@ -91,7 +91,7 @@ void Analysis::Loop(TString fname)
 
   TH1F *rndH;
 
-  TFile *f = new TFile("hists/Hist"+fname+".root","RECREATE");
+  TFile *f = new TFile("../hists/Hist"+fname+".root","RECREATE");
   f->cd();
 
   Gflash gflash;
@@ -125,33 +125,33 @@ void Analysis::Loop(TString fname)
   TH1F *LatePi0EPFullsim_spECAL_HCALFit     = new TH1F( "LatePi0EPFullsim_spECAL_HCALFit","LatePi0EPFullsim_spECAL_HCALFit" ,  30, 0  , 15    );
   TH1F *LatePi0EPFullsim_spECAL_ECALFit     = new TH1F( "LatePi0EPFullsim_spECAL_ECALFit","LatePi0EPFullsim_spECAL_ECALFit" ,  30, 0  , 15    );
 
-  TH1F *Alpha_HadEPFullsim_spHCAL = new TH1F( "Alpha_HadEPFullsim_spHCAL", "Alpha_HadEPFullsim_spHCAL" ,   50, -5  , 5    );
-  TH1F *Alpha_HadEPFullsim_spECAL_ECAL = new TH1F( "Alpha_HadEPFullsim_spECAL_ECAL", "Alpha_HadEPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
-  TH1F *Alpha_HadEPFullsim_spECAL_HCAL = new TH1F( "Alpha_HadEPFullsim_spECAL_HCAL", "Alpha_HadEPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
-  TH1F *Beta_HadEPFullsim_spHCAL = new TH1F( "Beta_HadEPFullsim_spHCAL", "Beta_HadEPFullsim_spHCAL" ,   50, -5  , 5    );
-  TH1F *Beta_HadEPFullsim_spECAL_ECAL = new TH1F( "Beta_HadEPFullsim_spECAL_ECAL", "Beta_HadEPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
-  TH1F *Beta_HadEPFullsim_spECAL_HCAL = new TH1F( "Beta_HadEPFullsim_spECAL_HCAL", "Beta_HadEPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
+  TH1F *Alpha_HadEPFullsim_spHCAL = new TH1F( "Alpha_HadEPFullsim_spHCAL", "Alpha_HadEPFullsim_spHCAL" ,   50, -10  , 10    );
+  TH1F *Alpha_HadEPFullsim_spECAL_ECAL = new TH1F( "Alpha_HadEPFullsim_spECAL_ECAL", "Alpha_HadEPFullsim_spECAL_ECAL" ,   50, -10  , 10    );
+  TH1F *Alpha_HadEPFullsim_spECAL_HCAL = new TH1F( "Alpha_HadEPFullsim_spECAL_HCAL", "Alpha_HadEPFullsim_spECAL_HCAL" ,   50, -10  , 10    );
+  TH1F *Beta_HadEPFullsim_spHCAL = new TH1F( "Beta_HadEPFullsim_spHCAL", "Beta_HadEPFullsim_spHCAL" ,   50, -10  , 10    );
+  TH1F *Beta_HadEPFullsim_spECAL_ECAL = new TH1F( "Beta_HadEPFullsim_spECAL_ECAL", "Beta_HadEPFullsim_spECAL_ECAL" ,   50, -10  , 10    );
+  TH1F *Beta_HadEPFullsim_spECAL_HCAL = new TH1F( "Beta_HadEPFullsim_spECAL_HCAL", "Beta_HadEPFullsim_spECAL_HCAL" ,   50, -10  , 10    );
   TH2F *AlphaBetaCorr_HadEPFullsim_spHCAL = new TH2F( "AlphaBetaCorr_HadEPFullsim_spHCAL", "AlphaBetaCorr_HadEPFullsim_spHCAL" ,   200,-10,10,200,-10,10    );
   TH2F *AlphaBetaCorr_HadEPFullsim_spECAL_ECAL = new TH2F( "AlphaBetaCorr_HadEPFullsim_spECAL_ECAL", "AlphaBetaCorr_HadEPFullsim_spECAL_ECAL" ,   200,-10,10,200,-10,10    );
   TH2F *AlphaBetaCorr_HadEPFullsim_spECAL_HCAL = new TH2F( "AlphaBetaCorr_HadEPFullsim_spECAL_HCAL", "AlphaBetaCorr_HadEPFullsim_spECAL_HCAL" ,   200,-10,10,200,-10,10    );
 
 
-  TH1F *Alpha_FirstPi0EPFullsim_spHCAL = new TH1F( "Alpha_FirstPi0EPFullsim_spHCAL", "Alpha_FirstPi0EPFullsim_spHCAL" ,   50, -5  , 5    );
-  TH1F *Alpha_FirstPi0EPFullsim_spECAL_ECAL = new TH1F( "Alpha_FirstPi0EPFullsim_spECAL_ECAL", "Alpha_FirstPi0EPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
-  TH1F *Alpha_FirstPi0EPFullsim_spECAL_HCAL = new TH1F( "Alpha_FirstPi0EPFullsim_spECAL_HCAL", "Alpha_FirstPi0EPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
-  TH1F *Beta_FirstPi0EPFullsim_spHCAL = new TH1F( "Beta_FirstPi0EPFullsim_spHCAL", "Beta_FirstPi0EPFullsim_spHCAL" ,   50, -5  , 5    );
-  TH1F *Beta_FirstPi0EPFullsim_spECAL_ECAL = new TH1F( "Beta_FirstPi0EPFullsim_spECAL_ECAL", "Beta_FirstPi0EPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
-  TH1F *Beta_FirstPi0EPFullsim_spECAL_HCAL = new TH1F( "Beta_FirstPi0EPFullsim_spECAL_HCAL", "Beta_FirstPi0EPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
+  TH1F *Alpha_FirstPi0EPFullsim_spHCAL = new TH1F( "Alpha_FirstPi0EPFullsim_spHCAL", "Alpha_FirstPi0EPFullsim_spHCAL" ,   50, -10  , 10    );
+  TH1F *Alpha_FirstPi0EPFullsim_spECAL_ECAL = new TH1F( "Alpha_FirstPi0EPFullsim_spECAL_ECAL", "Alpha_FirstPi0EPFullsim_spECAL_ECAL" ,   50, -10  , 10    );
+  TH1F *Alpha_FirstPi0EPFullsim_spECAL_HCAL = new TH1F( "Alpha_FirstPi0EPFullsim_spECAL_HCAL", "Alpha_FirstPi0EPFullsim_spECAL_HCAL" ,   50, -10  , 10    );
+  TH1F *Beta_FirstPi0EPFullsim_spHCAL = new TH1F( "Beta_FirstPi0EPFullsim_spHCAL", "Beta_FirstPi0EPFullsim_spHCAL" ,   50, -10  , 10    );
+  TH1F *Beta_FirstPi0EPFullsim_spECAL_ECAL = new TH1F( "Beta_FirstPi0EPFullsim_spECAL_ECAL", "Beta_FirstPi0EPFullsim_spECAL_ECAL" ,   50, -10  , 10    );
+  TH1F *Beta_FirstPi0EPFullsim_spECAL_HCAL = new TH1F( "Beta_FirstPi0EPFullsim_spECAL_HCAL", "Beta_FirstPi0EPFullsim_spECAL_HCAL" ,   50, -10  , 10    );
   TH2F *AlphaBetaCorr_FirstPi0EPFullsim_spHCAL = new TH2F( "AlphaBetaCorr_FirstPi0EPFullsim_spHCAL", "AlphaBetaCorr_FirstPi0EPFullsim_spHCAL" ,   200,-10,10,200,-10,10    );
   TH2F *AlphaBetaCorr_FirstPi0EPFullsim_spECAL_ECAL = new TH2F( "AlphaBetaCorr_FirstPi0EPFullsim_spECAL_ECAL", "AlphaBetaCorr_FirstPi0EPFullsim_spECAL_ECAL" ,   200,-10,10,200,-10,10    );
   TH2F *AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL = new TH2F( "AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL", "AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL" ,   200,-10,10,200,-10,10    );
 
-  TH1F *Alpha_LatePi0EPFullsim_spHCAL = new TH1F( "Alpha_LatePi0EPFullsim_spHCAL", "Alpha_LatePi0EPFullsim_spHCAL" ,   50, -5  , 5    );
-  TH1F *Alpha_LatePi0EPFullsim_spECAL_ECAL = new TH1F( "Alpha_LatePi0EPFullsim_spECAL_ECAL", "Alpha_LatePi0EPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
-  TH1F *Alpha_LatePi0EPFullsim_spECAL_HCAL = new TH1F( "Alpha_LatePi0EPFullsim_spECAL_HCAL", "Alpha_LatePi0EPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
-  TH1F *Beta_LatePi0EPFullsim_spHCAL = new TH1F( "Beta_LatePi0EPFullsim_spHCAL", "Beta_LatePi0EPFullsim_spHCAL" ,   50, -5  , 5    );
-  TH1F *Beta_LatePi0EPFullsim_spECAL_ECAL = new TH1F( "Beta_LatePi0EPFullsim_spECAL_ECAL", "Beta_LatePi0EPFullsim_spECAL_ECAL" ,   50, -5  , 5    );
-  TH1F *Beta_LatePi0EPFullsim_spECAL_HCAL = new TH1F( "Beta_LatePi0EPFullsim_spECAL_HCAL", "Beta_LatePi0EPFullsim_spECAL_HCAL" ,   50, -5  , 5    );
+  TH1F *Alpha_LatePi0EPFullsim_spHCAL = new TH1F( "Alpha_LatePi0EPFullsim_spHCAL", "Alpha_LatePi0EPFullsim_spHCAL" ,   50, -10  , 10    );
+  TH1F *Alpha_LatePi0EPFullsim_spECAL_ECAL = new TH1F( "Alpha_LatePi0EPFullsim_spECAL_ECAL", "Alpha_LatePi0EPFullsim_spECAL_ECAL" ,   50, -10  , 10    );
+  TH1F *Alpha_LatePi0EPFullsim_spECAL_HCAL = new TH1F( "Alpha_LatePi0EPFullsim_spECAL_HCAL", "Alpha_LatePi0EPFullsim_spECAL_HCAL" ,   50, -10  , 10    );
+  TH1F *Beta_LatePi0EPFullsim_spHCAL = new TH1F( "Beta_LatePi0EPFullsim_spHCAL", "Beta_LatePi0EPFullsim_spHCAL" ,   50, -10  , 10    );
+  TH1F *Beta_LatePi0EPFullsim_spECAL_ECAL = new TH1F( "Beta_LatePi0EPFullsim_spECAL_ECAL", "Beta_LatePi0EPFullsim_spECAL_ECAL" ,   50, -10  , 10    );
+  TH1F *Beta_LatePi0EPFullsim_spECAL_HCAL = new TH1F( "Beta_LatePi0EPFullsim_spECAL_HCAL", "Beta_LatePi0EPFullsim_spECAL_HCAL" ,   50, -10  , 10    );
   TH2F *AlphaBetaCorr_LatePi0EPFullsim_spHCAL = new TH2F( "AlphaBetaCorr_LatePi0EPFullsim_spHCAL", "AlphaBetaCorr_LatePi0EPFullsim_spHCAL" ,   200,-10,10,200,-10,10    );
   TH2F *AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL = new TH2F( "AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL", "AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL" ,   200,-10,10,200,-10,10    );
   TH2F *AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL = new TH2F( "AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL", "AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL" ,   200,-10,10,200,-10,10    );
@@ -239,7 +239,7 @@ void Analysis::Loop(TString fname)
         delete rndH;
         Alpha_HadEPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyHadronicHcal));
         Beta_HadEPFullsim_spECAL_HCAL->Fill(log(gflash.betaEnergyHadronicHcal));
-        AlphaBetaCorr_HadEPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyHadronicHcal),log(gflash.alphaEnergyHadronicHcal));
+        AlphaBetaCorr_HadEPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyHadronicHcal),log(gflash.betaEnergyHadronicHcal));
       }
     }
     if(gflash.theHistEnergyHadronicEcal->Integral()==0 && gflash.theHistEnergyHadronicHcal > 0){
@@ -267,7 +267,7 @@ void Analysis::Loop(TString fname)
         delete rndH;
         Alpha_FirstPi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0FirstHcal));
         Beta_FirstPi0EPFullsim_spECAL_HCAL->Fill(log(gflash.betaEnergyPi0FirstHcal));
-        AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0FirstHcal),log(gflash.alphaEnergyPi0FirstHcal));
+        AlphaBetaCorr_FirstPi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0FirstHcal),log(gflash.betaEnergyPi0FirstHcal));
       }
     }
     if(gflash.theHistEnergyPi0FirstEcal->Integral()==0 && gflash.theHistEnergyPi0FirstHcal->Integral()>0){
@@ -295,7 +295,7 @@ void Analysis::Loop(TString fname)
         delete rndH;
         Alpha_LatePi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0LateHcal));
         Beta_LatePi0EPFullsim_spECAL_HCAL->Fill(log(gflash.betaEnergyPi0LateHcal));
-        AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0LateHcal),log(gflash.alphaEnergyPi0LateHcal));
+        AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL->Fill(log(gflash.alphaEnergyPi0LateHcal),log(gflash.betaEnergyPi0LateHcal));
       }
     }
     if(gflash.theHistEnergyPi0LateEcal->Integral()==0 && gflash.theHistEnergyPi0LateHcal->Integral()>0){
@@ -433,8 +433,7 @@ void Analysis::Loop(TString fname)
   AlphaBetaCorr_LatePi0EPFullsim_spECAL_ECAL->Write("",TObject::kOverwrite);
   AlphaBetaCorr_LatePi0EPFullsim_spECAL_HCAL->Write("",TObject::kOverwrite);
 
-  f->Close();
-/*
+
 //try to do fastsimulation
 //showers start in Hcal
   double meanalpha,meanbeta,RMSalpha,RMSbeta,corr;
@@ -459,7 +458,7 @@ void Analysis::Loop(TString fname)
     Beta_HadEPFastsim_spHCAL->Fill(beta);
     std::stringstream randname;
     randname <<i;
-    hists.push_back(RandomGammaProfile(exp(alpha) ,exp(beta), 10, 30, (randname.str()).c_str(),1));
+    hists.push_back(RandomGammaProfile(exp(alpha) ,exp(beta), 15, 30, (randname.str()).c_str(),1));
   }
    for (int i = 1; i < hists.size(); ++i){
      hists[i]->Add(hists[i-1]);
@@ -469,6 +468,9 @@ void Analysis::Loop(TString fname)
    hists[hists.size()-1]->SetName("HadEPFastsim_spHCAL");
    hists[hists.size()-1]->Write("",TObject::kOverwrite);
    for (int i = 1; i < hists.size(); ++i) delete hists[i];
+
+  f->Close();
+/*
 
 //showers start in ECAL / Hcal part
   meanalpha = AlphaBetaCorr_HadEPFullsim_spECAL_HCAL->GetMean(1);

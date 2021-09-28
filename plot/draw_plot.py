@@ -281,8 +281,11 @@ for num, sample in enumerate(samples):
             continue
         histA = file1.Get(v)
         print sample + v
-#        draw1dHist(histA, v, sample )
+        draw1dHist(histA, v, sample )
         del histA
+    os.system('rm -rf ' + sample)
+    os.system('mkdir ' + sample)
+    os.system('mv *.png ' + sample)
 
 
 Hist=[]
@@ -364,6 +367,19 @@ for v in AB:
     drawGraph(energy, corr, label_name='Correlation_' + v.split('_',1)[1], can_name='Correlation_' + v.split('_',1)[1])
     print v
     print corr
+
+os.system('rm -rf ABenergy')
+os.system('mkdir ABenergy')
+os.system('mv *.png ABenergy')
+
+for num, sample in enumerate(samples):
+    file1 = ROOT.TFile.Open('../hists/Hist'+sample+'.root')
+    H1=file1.Get('HadEPFullsim_spHCAL')
+    H2=file1.Get('HadEPFastsim_spHCAL')
+    compare2Hist(H1, H2,'FullSim', 'FastSim', sample, 'HadEP' )
+    del H1
+    del H2
+
 
 
 #Fastsimvariable = [['HadEPFullsim_spHCAL', 'HadEPFastsim_spHCAL', 'Hadronic EP in HCAL for showers starting in HCAL'],
